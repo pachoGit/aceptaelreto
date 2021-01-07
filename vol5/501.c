@@ -122,6 +122,8 @@ int main()
         // se descartan
         int p = (ndados_ataque < ndados_defensa ? ndados_ataque : ndados_defensa);
         pelear(val_defensa, val_ataque, p);
+        free(val_defensa);
+        free(val_ataque);
     }
     /*
     printf("Tropas de defensa: %d\n", info.tropas_defensa);
