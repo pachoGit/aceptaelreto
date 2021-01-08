@@ -47,6 +47,10 @@ int *corte(char *entrada, unsigned tam)
     return numeros;
 }
 
+int comparar(const void *a, const void *b)
+{
+    return (*(int *)a - *(int *)b);
+}
 
 int main()
 {
@@ -62,18 +66,46 @@ int main()
 
     tams = corte(entrada, mejis);
 
-    int montones = 0;
-    int actual; // Tamanio actual que poseemos para hacer el monton
+    // Lista de montones que tenemos, ordenados ascendentemente
+    int *montones = NULL;
+    int imonton = 0;
+    int i, j;
 
-    actual = tams[0];
-    for (int i = 0; i < mejis; i++)
+    // Guardamos el primer numero, ya que si o si se tiene un monton
+    montones = (int *) malloc(sizeof(int));
+    montones[imonton++] = tams[0];
+
+    // Por cada mejillon que llega
+    for (i = 1; i < mejis; i++)
     {
-        // Si el actual es menor o igual al mayor que tenemos se hace otro monton
-        if (actual <= tams[i])
+        // Ordenamos el array de montones en forma ascendente, porque
+        // el proximo valor entrar debe caber en el menor valor posible
+        // Donde se estea haciendo un monton
+        qsort(montones, imonton, sizeof(int), comparar);
+
+        int agregar = 1;
+        for (j = 0; j < imonton; j++)
         {
-            montones++;
-            actual = tams[i];
+            // Si el mejillon cabe en el monton actual, reemplazar el valor de ese
+            // monton con el valor del mejillon, ya que eso sucede si se coloca encima
+            // del mejillon :D
+            if (montones[j] > tams[i])
+            {
+                montones[j] = tams[i];
+                agregar = 0;
+                break;
+            }
+        }
+        // Si no se encuentra espacio para el nuevo valor, se
+        // Agrega al array de montones para formar su propio monton
+        if (agregar == 1)
+        {
+            montones = (int *) realloc(montones, sizeof(montones) * imonton);
+            montones[imonton++] = tams[i];
         }
     }
-    printf("%d\n", montones);
+
+    printf("%d\n", imonton);
+    
+    return 0;
 }
