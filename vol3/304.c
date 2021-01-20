@@ -1,4 +1,6 @@
-// Division euclidea
+// Division euclidea - Reto 304
+// https://www.aceptaelreto.com/problem/statistics.php?id=304
+// Tiempo: 0.068 - Memoria: 1112 KiB
 
 #include <stdio.h>
 
